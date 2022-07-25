@@ -1,8 +1,13 @@
 ---
 # Feel free to add content and custom Front Matter to this file.
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-layout: home
+layout: default
 ---
 
-#Hello Jekyll
+Hey everyone. My name is Genni, I am a first year Computer Science and Engineering student at [Politecnico di Milano][poli-website].
+This page will mostly be made of writeups of:
+1. CTFs I have played and solved;
+2. detailed explanations of crypto attacksin an attempt to understand them well enough myself;
+3. notes of my self study, concerning mostly math/computer science topics :)
+
+[poli-website]: https://www.polimi.it/
