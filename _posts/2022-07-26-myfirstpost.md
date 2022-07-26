@@ -6,12 +6,11 @@ date: 2022-07-26 12:33:39 +0200
 math: true
 ---
 
-This is my first post on this website! It will just contain random elements, so pretend like you don't see it :)
+This is my first post on this website! It probably will be deleted once the blog has more posts, but hey it's cool :)
 {: .message }
 
 As my first post, I might aswell just write something completely random, and what better random thing to write than math :)
-For shortage of time, and lack of a better option, I will just completely randomly write the solution to an excersise from an 
-abstract algebra book.
+Let's just write a solution to an exercise from the abstract algebra book of Dummit and Foote:
 
 Let $$ G $$ be a finite group, and let $$ x, y $$ be two elements of $$ G $$ of order $$ 2 $$ such that the set $$ S=\{x, y \} $$ is a 
 set of generators of $$ G $$. Prove that $$ G \cong D_{2n} $$ where  $$ n = |xy| $$.
