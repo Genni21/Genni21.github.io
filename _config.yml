@@ -25,10 +25,13 @@ github_username:  Genni21
 
 # Build settings
 markdown: kramdown
-remote_theme: sighingnow/jekyll-gitbook
+remote_theme: vfvong/jekyll-theme-tao
+#remote_theme: sighingnow/jekyll-gitbook
+
 plugins:
   - jekyll-feed
   - jekyll-redirect-from
+  - jekyll-remote-theme
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
