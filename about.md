@@ -4,15 +4,12 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+I'm Genni, a first year Computer Science and Engineering student at [Politecnico di Milano][poli-website].
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
-
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+This page will mostly be made of writeups of:
+1. CTFs I have played and solved;
+2. Detailed explanations of crypto attacks in an attempt to understand them well enough myself;
+3. Notes of my self study, concerning mostly math/computer science topics :)
 
 
-[jekyll-organization]: https://github.com/jekyll
+[poli-website]: https://www.polimi.it/

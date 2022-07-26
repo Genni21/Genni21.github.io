@@ -4,11 +4,12 @@
 layout: default
 ---
 
-Hey everyone. My name is Genni, I am a first year Computer Science and Engineering student at [Politecnico di Milano][poli-website].
-This page will mostly be made of writeups of:
-1. CTFs I have played and solved;
-2. Detailed explanations of crypto attacks in an attempt to understand them well enough myself;
-3. Notes of my self study, concerning mostly math/computer science topics :)
+  Hey everybody, this is the blog of (yet another) math/computer science enjoyer :)
+
+### What can one find here?
+
+  The stuff in here will mostly (and hopefully) be technical, so you can hope to either: 
+  1. find some very specific posts, guiding through my thought process in tackling some problems, in the hopes of remembering it myself, OR
+  2. find notes that barely scratch the surface of a topic I am just trying to learn.
 
 
-[poli-website]: https://www.polimi.it/
