@@ -1,0 +1,48 @@
+<p>This post concerns the first cryptanalytic attack on Bruce Schneier’s Self Study Course on Block Cipher Cryptanalysis.</p>
+
+<p>The RC5 cipher is quite an old cipher, nowadays noticably less used than before due to the rise of AES. One of the strenght of RC5, for didactic purposes, is its simplicity.</p>
+
+<p>The RC5 cipher starts with a Key Expansion algorithm, which takes in a key, divides it into words, and outputs an array of the sort
+$S[0], S[1], … , S[n]$, where all of the elements of the array $S$ are words. For now I will avoid how the array is constructed from the key.</p>
+
+<p>Once the array $S$ is built, one can call the encryption and decryption functions. The encrytion function takes in two words, $A$ and $B$, as 
+inputs, and works as follows (\textasciicircum \space is the xor operator):</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">A</span> <span class="o">=</span> <span class="n">A</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">B</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span> <span class="c1">#r is the number of rounds
+</span>	<span class="n">A</span> <span class="o">=</span> <span class="p">((</span><span class="n">A</span> <span class="o">^</span> <span class="n">B</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">B</span><span class="p">)</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">]</span>
+	<span class="n">B</span> <span class="o">=</span> <span class="p">((</span><span class="n">A</span> <span class="o">^</span> <span class="n">B</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">A</span><span class="p">)</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">return</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span></code></pre></figure>
+
+<p>It is worth nothing that A and B are storing only 32 bits, so the additions are concretely modular additions, where the modulus is $2^{32}$, equivalent to 
+using a binary AND operator with the value $2^{32} - 1$.
+\</p>
+
+<p>The first target I will try to break is 8 rounds RC5 without rotations, so there is no left/right shift of bits at all.
+Here follows the (pseudo)code for it:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">A</span> <span class="o">=</span> <span class="n">A</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">B</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span> <span class="c1">#r is the number of rounds
+</span>	<span class="n">A</span> <span class="o">=</span> <span class="p">(</span><span class="n">A</span> <span class="o">^</span> <span class="n">B</span><span class="p">)</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">]</span>
+	<span class="n">B</span> <span class="o">=</span> <span class="p">(</span><span class="n">A</span> <span class="o">^</span> <span class="n">B</span><span class="p">)</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">return</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span></code></pre></figure>
+
+<p>At first, I thought there was a full break on this, linear in the number of rounds, but I wasn’t really thinking straight, and I thought I could somehow
+just walk back the cipher bruteforcing only the last round subkey.
+Reading online, nothing really made sense, when, after a while, I came across a guy saying “combinations of lsbs”. At this point everything clicked, I can try all of the 
+combinations of the LSBs of A and B, and see which one matches the output. For some reason, my mind didn’t instantly go to it when I read “lookup table” in a previous link,
+it probably has to do with the fact that I didn’t think that my lookup table would be surjective, but in hindsight I should’ve expected this because both XOR and addition 
+don’t lose any information.</p>
+
+<p>Notice that the only carry is upwards, this means that only the lower x bits of the plaintext influence the lower x bits of the ciphertext.
+Let $A$, $B$ be our 2 32-bit words of plaintext, and let $C$, $D$ be our 2 32-bit words of ciphertext. Let also $A^{‘} = A \pmod{2^i}$, 
+$B^{‘} \equiv B \pmod{2^i}$, $C^{‘} \equiv C \pmod{2^i}$, $D^{‘} \equiv D \pmod{2^i}, \forall i&lt;32$. We know the following (because of exclusive upward
+carry):</p>
+
+\[C^{'} = f(A^{'}, B^{'}), \textrm{ for some function }f\]
+
+<p>This basically just means that the lowest n bits of the output are determined only by the lowest bits of the input. We can basically build an algorithm
+from this, that allows to retrieve the original plaintext with just $4w$ calls to the encryption oracle, by just checking which of 
+the 4 combination of two bits produces the actual ciphertext bits.</p>
